@@ -108,7 +108,7 @@ function getVandermondeCofactorMatrix(vandermonde) {
         for (var j = 0; j < numRows; j++) {
             // calculate cofactor
             var c = (i + j) % 2 == 0 ? 1 : -1;
-            c *= getDeterminant(spliceMatrix(vandermonde.slice(0), i, j));
+            c *= getDeterminant(spliceMatrix(vandermonde.slice(0), i, j).slice(0));
             
             row.push(c);
         }
@@ -133,15 +133,23 @@ function getDeterminant(matrix) {
     // chose first row to find determinant.
     var i = 0;
     for (var j = 0; j < size; j++) {
-        var x = (i + 1 + j + 1) % 2 ? 1 : -1;
+
+        var x = (i + 1 + j + 1) % 2 == 0 ? 1 : -1;
         x *= matrix[i][j];
         
         // create a matrix with row i and column j taken out
-        var innerMatrix = spliceMatrix(matrix.slice(0), i, j).slice(0); // use slice to return a copy.
+
+        // first, copy the matrix by value
+        // need to use this technique for array of arrays.
+        var innerMatrix = JSON.parse(JSON.stringify(matrix)); 
+
+        // splice matrix
+        spliceMatrix(innerMatrix, i, j);
 
         x *= getDeterminant(innerMatrix);
 
         det += x;
+        delete innerMatrix;
     }
     return det;
 }
@@ -155,7 +163,6 @@ function spliceMatrix(matrix, i, j) {
     for (var k = 0; k < size; k++) {
         matrix[k].splice(j, 1);
     }
-    return matrix;
 }
 
 
@@ -209,7 +216,12 @@ function submitPoints() {
     console.log("Cofactor of vandemonde: ");
     console.log(getVandermondeCofactorMatrix(vandermonde));
 */
-    console.log(getDeterminant(vandermonde));
+    console.log("Determinant: " + getVandermondeDeterminant(vandermonde));
+    console.log("Other determinant: " + getDeterminant(vandermonde));
+    console.log("Other determinant: " + getDeterminant(vandermonde));
+    console.log("Other determinant: " + getDeterminant(vandermonde));
+
+   // console.log(getVandermondeCofactorMatrix(vandermonde).join("\n"));
 
 }
 
