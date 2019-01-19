@@ -102,13 +102,17 @@ function getVandermondeCofactorMatrix(vandermonde) {
 
     var cofactorMatrix = [];
 
+    // loop through each row and column
     for (var i = 0; i < numRows; i++) {
         var row = [];
 
         for (var j = 0; j < numRows; j++) {
             // calculate cofactor
             var c = (i + j) % 2 == 0 ? 1 : -1;
-            c *= getDeterminant(spliceMatrix(vandermonde.slice(0), i, j).slice(0));
+            
+            var innerMatrix = JSON.parse(JSON.stringify(vandermonde));
+            spliceMatrix(innerMatrix, i, j);
+            c *= getDeterminant(innerMatrix);
             
             row.push(c);
         }
@@ -217,9 +221,8 @@ function submitPoints() {
     console.log(getVandermondeCofactorMatrix(vandermonde));
 */
     console.log("Determinant: " + getVandermondeDeterminant(vandermonde));
-    console.log("Other determinant: " + getDeterminant(vandermonde));
-    console.log("Other determinant: " + getDeterminant(vandermonde));
-    console.log("Other determinant: " + getDeterminant(vandermonde));
+
+    console.log("Cofactor Matrix: " + getVandermondeCofactorMatrix(vandermonde).join("\n"));
 
    // console.log(getVandermondeCofactorMatrix(vandermonde).join("\n"));
 
