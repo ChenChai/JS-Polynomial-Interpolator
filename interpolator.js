@@ -30,7 +30,7 @@ function deleteInputPair() {
     pointForm.removeChild(pointForm.lastChild);
 }
 
-getPoints() {
+function getPoints() {
     var pointForm = document.getElementById("pointList");
     var numPoints = pointForm.childElementCount;
     var rawPoints = pointForm.children;
@@ -45,18 +45,42 @@ getPoints() {
         var pair = [x, y];
         points.push(pair);
     }
+
+    return points;
 }
 
 // returns a vandermonde array to work with.
 function getVandermondeArray() {
     var points = getPoints();
+
+    var numPoints = points.length;
+    var vandermonde = [];
+    // create the matrix
+    for (var i = 0; i < numPoints; i++) {
+        var point = points[i];
+        var x = point[0];
+        var y = point[1];
+        
+        var row = [];
+
+        // create a row of the matrix. Each row has a number of 
+        // elements equal to the number of points given
+        for (var j = 0; j < numPoints; j++) {
+            // raise x to the power of the row.
+            // this process will create the Vandemonde matrix.
+            row.push(Math.pow(x, j));
+        }
+
+        vandermonde.push(row);
+    }
+
+    return vandermonde;
 }
 
 // validates that inputs are good.
 function validateInputs() {
     var pointForm = document.getElementById("pointList");
     var numPoints = pointForm.childElementCount;
-    console.log("Number of points: " + numPoints);
     var points = pointForm.children;
 
     // will be set to false if any input is invalid.
@@ -66,7 +90,6 @@ function validateInputs() {
     for (var i = 0; i < numPoints; i++) {
         // get a point
         var point = points[i];
-        console.log("number of coords: " + point.childElementCount);
 
         // get x and y values.
         var x = point.children[0];
@@ -77,7 +100,6 @@ function validateInputs() {
             valid = false;
             x.setAttribute("class", "invalid");
         } else {
-            console.log("x is " + x.value);
             x.setAttribute("class", "");
         }
 
@@ -86,7 +108,6 @@ function validateInputs() {
             valid = false;
             y.setAttribute("class", "invalid");
         } else {
-            console.log("y is " + y.value);
             y.setAttribute("class", "");
         }
     }
@@ -99,5 +120,7 @@ function submitPoints() {
     if (!valid) { return; }
 
     var vandermonde = getVandermondeArray();
+    console.log("vandermonde matrix: ");
+    console.log(vandermonde);
 }
 
