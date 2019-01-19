@@ -3,7 +3,6 @@ function addInputPair() {
     var point = document.createElement("div");
 
     point.setAttribute("id", "point");
-    //point.append("(");
     
     // create an input field
     var coord = document.createElement("input");
@@ -12,35 +11,29 @@ function addInputPair() {
     coord2.setAttribute("type", "text");    
 
     point.append(coord);
-    //point.append(", ")
+    point.append(" "); // spaces aren't counted as nodes.
     point.append(coord2);
-
-    //point.append(")");
 
     var pointList = document.getElementById("pointList");
     pointList.append(point);
 }
 
+// removes the last input pair from the list if there are more that two.
+function deleteInputPair() {
+    var pointForm = document.getElementById("pointList");
+
+    // we won't delete the point if there are two points or less.
+    if (pointForm.childElementCount <= 2) {
+        return;
+    }
+
+    pointForm.removeChild(pointForm.lastChild);
+
+}
+
 // returns an array of points which have been input.
 function getArray() {
     var pointForm = document.getElementById("pointList");
-
-    var numPoints = pointForm.childElementCount;
-    window.alert(numPoints);
-    return;
-
-    if (pointForm.childElementCount <= 1) {
-        return undefined;
-    }
-
-    var rawPoints = pointForm.childNodes;
-    var length = rawPoints.length;
-    
-    var vandermonde = [];
-    for(var i = 0; i < length; i++) {
-
-    }
-
 }
 
 // validates that inputs are good.
@@ -86,7 +79,8 @@ function validateInputs() {
 
 function submitPoints() {
     var valid = validateInputs();
-
     if (!valid) { return; }
+
+    var points = getPoints(); 
 }
 
