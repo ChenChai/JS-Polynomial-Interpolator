@@ -1,4 +1,8 @@
-.point input {
+#point input {
+  margin: 3px;
   width: 30px;
-  background-color: blue;
+  padding: 5px;
+  border: 2px solid #5d5db6;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
 }
