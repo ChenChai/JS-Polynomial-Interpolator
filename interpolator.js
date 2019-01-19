@@ -208,12 +208,19 @@ function validateInputs() {
     return valid;
 }
 
+
+// returns an array of the y-values of the points given.
+function getConstantVector() {
+    var points = getPoints();
+}
+
+
 function submitPoints() {
     var valid = validateInputs();
     if (!valid) { return; }
 
     var vandermonde = getVandermondeArray();
-    
+    var vector = getConstantVector();
     console.log("vandermonde matrix: ");
     console.log(vandermonde.join("\n"));
 /*
