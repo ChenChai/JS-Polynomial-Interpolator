@@ -30,8 +30,7 @@ function deleteInputPair() {
     pointForm.removeChild(pointForm.lastChild);
 }
 
-// returns a vandermonde array to work with.
-function getVandermondeArray() {
+getPoints() {
     var pointForm = document.getElementById("pointList");
     var numPoints = pointForm.childElementCount;
     var rawPoints = pointForm.children;
@@ -46,6 +45,11 @@ function getVandermondeArray() {
         var pair = [x, y];
         points.push(pair);
     }
+}
+
+// returns a vandermonde array to work with.
+function getVandermondeArray() {
+    var points = getPoints();
 }
 
 // validates that inputs are good.
