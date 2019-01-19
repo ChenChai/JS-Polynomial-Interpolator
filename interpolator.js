@@ -28,12 +28,24 @@ function deleteInputPair() {
     }
 
     pointForm.removeChild(pointForm.lastChild);
-
 }
 
-// returns an array of points which have been input.
-function getArray() {
+// returns a vandermonde array to work with.
+function getVandermondeArray() {
     var pointForm = document.getElementById("pointList");
+    var numPoints = pointForm.childElementCount;
+    var rawPoints = pointForm.children;
+
+    // array containing actual numbers.
+    var points = [];
+
+    for (var i = 0; i < numPoints; i++) {
+        var rawPoint = rawPoints[i];
+        var x = rawPoint.children[0].value;
+        var y = rawPoint.children[1].value;
+        var pair = [x, y];
+        points.push(pair);
+    }
 }
 
 // validates that inputs are good.
@@ -43,6 +55,7 @@ function validateInputs() {
     console.log("Number of points: " + numPoints);
     var points = pointForm.children;
 
+    // will be set to false if any input is invalid.
     var valid = true;
 
     // loop through each coordinate pair and validate
@@ -81,6 +94,6 @@ function submitPoints() {
     var valid = validateInputs();
     if (!valid) { return; }
 
-    var points = getPoints(); 
+    var vandermonde = getVandermondeArray();
 }
 
