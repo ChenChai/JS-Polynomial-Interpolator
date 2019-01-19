@@ -5,16 +5,16 @@
     <meta charset="UTF-8"/>
     <link href="styles.css" rel="stylesheet"/>
 </head>
-<body>
+<body onkeydown="myFunc()">
+    <button onclick="addInputPair()">+</button>
+
     Coordinates:
-    <form>
-        <div class="inputPair">
+    <form id="pointList">
+        <div id="point">
             (<input type="text"/>, <input type="text">)
         </div>
-        <div class="inputPair">
-                (<input type="text"/>, <input type="text">)
-        </div>
     </form>
-    <input type="submit" value="calculate!"/>
+    
+<script src="interpolator.js"></script>
 </body>
 </html>

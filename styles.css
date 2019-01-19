@@ -1,3 +1,4 @@
-.inputPair input {
-  width: 50px;
+.point input {
+  width: 30px;
+  background-color: blue;
 }
