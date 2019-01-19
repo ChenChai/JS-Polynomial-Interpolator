@@ -77,6 +77,24 @@ function getVandermondeArray() {
     return vandermonde;
 }
 
+function getVandermondeDeterminant(vandermonde) {
+    var det = 1;
+    var numRows = vandermonde.length;
+    // formula for determinant of vandermonde matrix is
+    // product of differences of x values in second column.
+
+    // loop through each row's x value.
+    for (var i = 0; i < numRows; i++) {
+        var x = vandermonde[i][1];
+
+        for (var j = 0; j < i; j++) {
+            det *= (x - vandermonde[j][1]);
+        }
+    }
+
+    return det;
+}
+
 // validates that inputs are good.
 function validateInputs() {
     var pointForm = document.getElementById("pointList");
@@ -122,5 +140,8 @@ function submitPoints() {
     var vandermonde = getVandermondeArray();
     console.log("vandermonde matrix: ");
     console.log(vandermonde);
+    var det = getVandermondeDeterminant(vandermonde);
+
+    console.log("determinant: " + det);
 }
 
