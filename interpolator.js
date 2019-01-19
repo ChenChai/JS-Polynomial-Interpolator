@@ -67,7 +67,7 @@ function getVandermondeArray() {
         // elements equal to the number of points given
         for (var j = 0; j < numPoints; j++) {
             // raise x to the power of the row.
-            // this process will create the Vandemonde matrix.
+            // this process will create the Vandermonde matrix.
             row.push(Math.pow(x, j));
         }
 
@@ -94,6 +94,70 @@ function getVandermondeDeterminant(vandermonde) {
 
     return det;
 }
+
+// Returns cofactor matrix of a vandermonde matrix.
+function getVandermondeCofactorMatrix(vandermonde) {
+    var det = getVandermondeDeterminant(vandermonde);
+    var numRows = vandermonde.length;
+
+    var cofactorMatrix = [];
+
+    for (var i = 0; i < numRows; i++) {
+        var row = [];
+
+        for (var j = 0; j < numRows; j++) {
+            // calculate cofactor
+            var c = (i + j) % 2 == 0 ? 1 : -1;
+            c *= getDeterminant(spliceMatrix(vandermonde.slice(0), i, j));
+            
+            row.push(c);
+        }
+        cofactorMatrix.push(row);
+    }
+
+    return cofactorMatrix;
+}
+
+function getDeterminant(matrix) {
+    var det = 0;
+    
+    var size = matrix.length;
+    console.log("Size = " + size + " Finding det of:");
+    console.log(matrix.join("\n"));
+
+    if (size <= 1) {
+        return matrix[0][0];
+    }
+
+    // calculate determinant using recursion
+    // chose first row to find determinant.
+    var i = 0;
+    for (var j = 0; j < size; j++) {
+        var x = (i + 1 + j + 1) % 2 ? 1 : -1;
+        x *= matrix[i][j];
+        
+        // create a matrix with row i and column j taken out
+        var innerMatrix = spliceMatrix(matrix.slice(0), i, j).slice(0); // use slice to return a copy.
+
+        x *= getDeterminant(innerMatrix);
+
+        det += x;
+    }
+    return det;
+}
+
+// removes row i and column j from matrix.
+function spliceMatrix(matrix, i, j) {
+    matrix.splice(i, 1);
+
+    var size = matrix.length;
+    // loop through remaining rows and remove element from column j.
+    for (var k = 0; k < size; k++) {
+        matrix[k].splice(j, 1);
+    }
+    return matrix;
+}
+
 
 // validates that inputs are good.
 function validateInputs() {
@@ -138,10 +202,14 @@ function submitPoints() {
     if (!valid) { return; }
 
     var vandermonde = getVandermondeArray();
+    
     console.log("vandermonde matrix: ");
-    console.log(vandermonde);
-    var det = getVandermondeDeterminant(vandermonde);
+    console.log(vandermonde.join("\n"));
+/*
+    console.log("Cofactor of vandemonde: ");
+    console.log(getVandermondeCofactorMatrix(vandermonde));
+*/
+    console.log(getDeterminant(vandermonde));
 
-    console.log("determinant: " + det);
 }
 
