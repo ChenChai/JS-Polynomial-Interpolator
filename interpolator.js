@@ -336,9 +336,9 @@ function getPolynomialString(polynomial) {
 
     // build up a string of terms in the polynomial.
     for (var i = 0; i < polynomial.length; i++) {
-        if (polynomial[i] === Infinity) { return "Output too large."; }
+        if (polynomial[i] == Infinity) { return "Output too large."; }
         if (isNaN(polynomial[i])) { console.log(polynomial[i]);}
-        polyString = Math.round(polynomial[i] * 1000) / 1000 + "x<sup>" + i + "</sup>" + polyString;
+        polyString = polynomial[i].toFixed(3) + "x<sup>" + i + "</sup>" + polyString;
         
         if (i != polynomial.length - 1) {
             polyString = " + " + polyString;
