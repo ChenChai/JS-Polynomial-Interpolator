@@ -211,7 +211,7 @@ function getConstantVector() {
 
     var vector = [];
     for (var i = 0; i < size; i++) {
-        vector.push(points[1]); // add the y value.
+        vector.push(points[i][1]); // add the y value.
     }
     return vector;
 }
@@ -241,11 +241,12 @@ function matrixVectorMultiply(matrix, vector) {
     var numRows = matrix.length;
     var numColumns = matrix[0].length;
 
+    // multiply matrix by vector using linear algebra
     for (var i = 0; i < numRows; i++) {
         var x = 0;
         for (var j = 0; j < numColumns; j++) {
             console.log(" x = " +  matrix[i][j] + " + " + vector[j])
-            x += matrix[i][j] * vector[0][j];
+            x += matrix[i][j] * vector[j];
         }
         console.log("added " + x + " to polynomial.");
         newVector.push(x);
@@ -291,13 +292,13 @@ function submitPoints() {
     console.log("Polynomial: ");
     console.log(polynomial.join(" \n "));
 
-    window.alert("You got " + printPolynomial(polynomial));
+    window.alert("You got " + getPolynomialString(polynomial));
     return;
 
 }
 
 // prints a polynomial passed in vector form
-function printPolynomial(polynomial) {
+function getPolynomialString(polynomial) {
     var polyString = "";
 
     // build up a string of terms in the polynomial.
