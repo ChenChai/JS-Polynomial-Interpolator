@@ -125,34 +125,32 @@ function getVandermondeCofactorMatrix(vandermonde) {
 }
 
 function getDeterminant(matrix) {
-
-    console.clear();
-    console.log("Beginning Row Reduction:")
     var numRows = matrix.length;
     var numColumns = matrix[0].length;
-
+    
     // copy matrix
     var newMatrix = JSON.parse(JSON.stringify(matrix));
 
+
+    // ROW REDUCTION
     // loop through each row from top to bottom, and
     // make all entries beneath leading entry zero.
     for (var i = 0; i < numRows; i++) {
         // reduce row j's first entry to zero.
         for (var j = i + 1; j < numRows; j++) {
-            // subtract (row i * leading entry of row j) from (row j * leading entry of row i) 
-            subtractRow(newMatrix, newMatrix[i][i], j, newMatrix[j][i], i);
-            console.log(newMatrix.join("\n"));
+            // subtract (row i *  leading entry of row j / leading entry of row i) from (row j * 1) 
+            subtractRow(newMatrix, 1, j, newMatrix[j][i] / newMatrix[i][i], i);
+
         }
 
     }
-
-    console.log(newMatrix.join("\n"));
 
     var det = 1;
 
     for (var i = 0; i < numRows; i++) {
         det *= newMatrix[i][i];
     }
+
     return det;
     /*
     var det = 0;
@@ -301,11 +299,14 @@ function submitPoints() {
     // can be used for polynomial interpolation
     var vandermonde = getVandermondeArray();
 
+
+
     // constant vector of all the y-values
     var vector = getConstantVector();
 
     // get determinant
     var det = getVandermondeDeterminant(vandermonde);
+
 
     // no possible solution (i.e., not function?)
     if (det == 0) {
@@ -320,7 +321,10 @@ function submitPoints() {
 
     // get cofactor matrix by value
     var cofactor = getVandermondeCofactorMatrix(vandermonde);
+    
+
     var adjoint = transpose(cofactor);
+
 
     // get the inverse of the vandermonde matrix
     var inverse = scalarMultiply(adjoint, 1 / det);
@@ -338,7 +342,6 @@ function getPolynomialString(polynomial) {
     // build up a string of terms in the polynomial.
     for (var i = 0; i < polynomial.length; i++) {
         if (polynomial[i] == Infinity) { return "Output too large."; }
-        if (isNaN(polynomial[i])) { console.log(polynomial[i]);}
         polyString = Math.round(polynomial[i] * 1000) / 1000 + "x<sup>" + i + "</sup>" + polyString;
         
         if (i != polynomial.length - 1) {
