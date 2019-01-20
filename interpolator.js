@@ -126,9 +126,6 @@ function getDeterminant(matrix) {
     var det = 0;
     
     var size = matrix.length;
-    console.log("Size = " + size + " Finding det of:");
-    console.log(matrix.join("\n"));
-
     if (size <= 1) {
         return matrix[0][0];
     }
@@ -239,7 +236,22 @@ function scalarMultiply(matrix, scalar) {
 
 // matrix multiplies (matrix * vector) and returns new matrix.
 function matrixVectorMultiply(matrix, vector) {
+    var newVector = [];
 
+    var numRows = matrix.length;
+    var numColumns = matrix[0].length;
+
+    for (var i = 0; i < numRows; i++) {
+        var x = 0;
+        for (var j = 0; j < numColumns; j++) {
+            console.log(" x = " +  matrix[i][j] + " + " + vector[j])
+            x += matrix[i][j] * vector[0][j];
+        }
+        console.log("added " + x + " to polynomial.");
+        newVector.push(x);
+    }
+
+    return newVector;
 }
 
 function submitPoints() {
@@ -273,7 +285,28 @@ function submitPoints() {
     // get constant vector
     console.log("Constant vector: " + vector.join("\n"));
 
+    // solve the system of equations by multiplying the constant vector by the inverse of the matrix
+    var polynomial = matrixVectorMultiply(inverse, vector);
 
+    console.log("Polynomial: ");
+    console.log(polynomial.join(" \n "));
+
+    window.alert("You got " + printPolynomial(polynomial));
+    return;
 
 }
 
+// prints a polynomial passed in vector form
+function printPolynomial(polynomial) {
+    var polyString = "";
+
+    // build up a string of terms in the polynomial.
+    for (var i = 0; i < polynomial.length; i++) {
+        polyString = polynomial[i] + "x^" + i + polyString; 
+        if (i != polynomial.length - 1) {
+            polyString = " + " + polyString;
+        }
+    }
+
+    return polyString;
+}
