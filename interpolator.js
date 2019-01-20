@@ -143,6 +143,7 @@ function getDeterminant(matrix) {
             subtractRow(newMatrix, newMatrix[i][i], j, newMatrix[j][i], i);
             console.log(newMatrix.join("\n"));
         }
+
     }
 
     console.log(newMatrix.join("\n"));
@@ -338,7 +339,7 @@ function getPolynomialString(polynomial) {
     for (var i = 0; i < polynomial.length; i++) {
         if (polynomial[i] == Infinity) { return "Output too large."; }
         if (isNaN(polynomial[i])) { console.log(polynomial[i]);}
-        polyString = polynomial[i].toFixed(3) + "x<sup>" + i + "</sup>" + polyString;
+        polyString = Math.round(polynomial[i] * 1000) / 1000 + "x<sup>" + i + "</sup>" + polyString;
         
         if (i != polynomial.length - 1) {
             polyString = " + " + polyString;
