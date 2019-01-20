@@ -7,8 +7,10 @@ function addInputPair() {
     // create an input field
     var coord = document.createElement("input");
     coord.setAttribute("type", "text");
+    coord.setAttribute("placeholder", "x");
     var coord2 = document.createElement("input");
-    coord2.setAttribute("type", "text");    
+    coord2.setAttribute("type", "text");   
+    coord2.setAttribute("placeholder", "y") 
 
     point.append(coord);
     point.append(" "); // spaces aren't counted as nodes.
