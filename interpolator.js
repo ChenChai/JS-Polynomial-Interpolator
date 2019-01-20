@@ -306,7 +306,7 @@ function submitPoints() {
 
     // no possible solution (i.e., not function?)
     if (det == 0) {
-        document.getElementById("answer").innerHTML = getPolynomialString("No solution possible.");
+        document.getElementById("answer").innerHTML = "No solution possible.";
         return;
     }
 
