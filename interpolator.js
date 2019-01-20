@@ -329,7 +329,7 @@ function getPolynomialString(polynomial) {
 
     // build up a string of terms in the polynomial.
     for (var i = 0; i < polynomial.length; i++) {
-        polyString = polynomial[i] + "x<sup>" + i + "</sup>" + polyString; 
+        polyString = polynomial[i].toFixed(3) + "x<sup>" + i + "</sup>" + polyString; 
         if (i != polynomial.length - 1) {
             polyString = " + " + polyString;
         }
