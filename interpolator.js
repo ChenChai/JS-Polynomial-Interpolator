@@ -306,7 +306,7 @@ function submitPoints() {
 
     // no possible solution (i.e., not function?)
     if (det == 0) {
-        window.alert("No Solution Possible.");
+        document.getElementById("answer").innerHTML = getPolynomialString("No solution possible.");
         return;
     }
 
@@ -320,7 +320,7 @@ function submitPoints() {
     // solve the system of equations by multiplying the constant vector by the inverse of the matrix
     var polynomial = matrixVectorMultiply(inverse, vector);
 
-    document.getElementById("answer").innerHTML = getPolynomialString(polynomial);
+    document.getElementById("answer").innerHTML = getPolynomialString("f(x) = " + polynomial);
 }
 
 // prints a polynomial passed in vector form
