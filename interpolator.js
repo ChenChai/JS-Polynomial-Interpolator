@@ -169,7 +169,6 @@ function spliceMatrix(matrix, i, j) {
     }
 }
 
-
 // validates that inputs are good.
 function validateInputs() {
     var pointForm = document.getElementById("pointList");
@@ -208,7 +207,6 @@ function validateInputs() {
     return valid;
 }
 
-
 // returns an array of the y-values of the points given.
 function getConstantVector() {
     var points = getPoints();
@@ -221,27 +219,27 @@ function getConstantVector() {
     return vector;
 }
 
-// transposes a square matrix
+// returns a new matrix that is the transpose of the given
 function transpose(matrix) {
+    var newMatrix = [];
     for (var i = 0; i < matrix.length; i++) {
-        for (var j = i; j < matrix.length; j++) {
-            var temp = matrix[i][j];
-            matrix[i][j] = matrix[j][i];
-            matrix[j][i] = temp;
+        var row = [];
+        for (var j = 0; j < matrix.length; j++) {
+            row.push(matrix[j][i]);
         }
+        newMatrix.push(row);
     }
+    return newMatrix;
 }
 
-// scalar multiply a matrix.
+// scalar multiply a matrix. Returns a new matrix. 
 function scalarMultiply(matrix, scalar) {
-    var rows = matrix.length;
-    var columns = matrix[0].length;
+    return matrix.map(row => row.map(element => (element * scalar)));
+}
 
-    for (var i = 0; i < rows; i++) {
-        for (var j = 0; i < columns; j++) {
-            matrix[i][j] = matrix[i][j] * scalar;
-        }
-    }
+// matrix multiplies (matrix * vector) and returns new matrix.
+function matrixVectorMultiply(matrix, vector) {
+
 }
 
 function submitPoints() {
@@ -249,25 +247,33 @@ function submitPoints() {
     var valid = validateInputs();
     if (!valid) { return; }
 
+    // vandermonde array is a special type of array that 
+    // can be used for polynomial interpolation
     var vandermonde = getVandermondeArray();
+
+    // constant vector of all the y-values
     var vector = getConstantVector();
+
     console.log("vandermonde matrix: ");
     console.log(vandermonde.join("\n"));
 
     // get determinant
     var det = getVandermondeDeterminant(vandermonde);
 
-    // get cofactor matrix
+    // get cofactor matrix by value
     var cofactor = getVandermondeCofactorMatrix(vandermonde);
+    var adjoint = transpose(cofactor);
+
+    // get the inverse of the vandermonde matrix
+    var inverse = scalarMultiply(adjoint, 1 / det);
+
+    console.log("Inverse: ");
+    console.log(inverse.join("\n"));
 
     // get constant vector
-    console.log("Constant vector: " + getConstantVector().join("\n"));
-
-    // adjoint is transpose of cofactor matrix
-    transpose(cofactor);
+    console.log("Constant vector: " + vector.join("\n"));
 
 
 
-    console.log(vandermonde.join("\n"));
 }
 
