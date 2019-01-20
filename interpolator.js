@@ -221,8 +221,8 @@ function validateInputs() {
         var x = point.children[0];
         var y = point.children[1];
 
-        // check if x is valid
-        if (isNaN(x.value) || x.value == "") {
+        // check if x is valid (check for no whitespace too!)
+        if (isNaN(x.value) || x.value == "" || x.value.search(/[*0-9.-]/)) {
             valid = false;
             x.setAttribute("class", "invalid");
         } else {
@@ -230,7 +230,7 @@ function validateInputs() {
         }
 
         // check if y is valid
-        if (isNaN(y.value) || y.value == "") {
+        if (isNaN(y.value) || y.value == "" || y.value.search(/[*0-9.-]/)) {
             valid = false;
             y.setAttribute("class", "invalid");
         } else {
