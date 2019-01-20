@@ -212,10 +212,28 @@ function validateInputs() {
 // returns an array of the y-values of the points given.
 function getConstantVector() {
     var points = getPoints();
+    var size = points.length;
+
+    var vector = [];
+    for (var i = 0; i < size; i++) {
+        vector.push(points[1]); // add the y value.
+    }
+    return vector;
 }
 
+// transposes a square matrix
+function transpose(matrix) {
+    for (var i = 0; i < matrix.length; i++) {
+        for (var j = i; j < matrix.length; j++) {
+            var temp = matrix[i][j];
+            matrix[i][j] = matrix[j][i];
+            matrix[j][i] = temp;
+        }
+    }
+}
 
 function submitPoints() {
+    console.clear();
     var valid = validateInputs();
     if (!valid) { return; }
 
@@ -223,15 +241,22 @@ function submitPoints() {
     var vector = getConstantVector();
     console.log("vandermonde matrix: ");
     console.log(vandermonde.join("\n"));
-/*
+
+
+    /*
     console.log("Cofactor of vandemonde: ");
     console.log(getVandermondeCofactorMatrix(vandermonde));
 */
     console.log("Determinant: " + getVandermondeDeterminant(vandermonde));
 
+
     console.log("Cofactor Matrix: " + getVandermondeCofactorMatrix(vandermonde).join("\n"));
 
    // console.log(getVandermondeCofactorMatrix(vandermonde).join("\n"));
+    console.log("Constant vector: " + getConstantVector().join("\n"));
 
+    console.log("vandermonde Transpose: ");
+    transpose(vandermonde);
+    console.log(vandermonde.join("\n"));
 }
 
