@@ -322,7 +322,7 @@ function submitPoints() {
     // solve the system of equations by multiplying the constant vector by the inverse of the matrix
     var polynomial = matrixVectorMultiply(inverse, vector);
 
-    document.getElementById("answer").innerHTML = getPolynomialString("f(x) = " + polynomial);
+    document.getElementById("answer").innerHTML ="f(x) = " + getPolynomialString(polynomial);
 }
 
 // prints a polynomial passed in vector form
@@ -331,7 +331,9 @@ function getPolynomialString(polynomial) {
 
     // build up a string of terms in the polynomial.
     for (var i = 0; i < polynomial.length; i++) {
-        polyString = polynomial[i].toFixed(3) + "x<sup>" + i + "</sup>" + polyString; 
+
+        polyString = Math.round(polynomial[i] * 1000) / 1000 + "x<sup>" + i + "</sup>" + polyString;
+
         if (i != polynomial.length - 1) {
             polyString = " + " + polyString;
         }
