@@ -95,7 +95,7 @@ function getVandermondeDeterminant(vandermonde) {
     return det;
 }
 
-// Returns cofactor matrix of a vandermonde matrix.
+// Returns cofactor matrix of a vandermonde matrix by value.
 function getVandermondeCofactorMatrix(vandermonde) {
     var det = getVandermondeDeterminant(vandermonde);
     var numRows = vandermonde.length;
@@ -232,6 +232,18 @@ function transpose(matrix) {
     }
 }
 
+// scalar multiply a matrix.
+function scalarMultiply(matrix, scalar) {
+    var rows = matrix.length;
+    var columns = matrix[0].length;
+
+    for (var i = 0; i < rows; i++) {
+        for (var j = 0; i < columns; j++) {
+            matrix[i][j] = matrix[i][j] * scalar;
+        }
+    }
+}
+
 function submitPoints() {
     console.clear();
     var valid = validateInputs();
@@ -242,21 +254,20 @@ function submitPoints() {
     console.log("vandermonde matrix: ");
     console.log(vandermonde.join("\n"));
 
+    // get determinant
+    var det = getVandermondeDeterminant(vandermonde);
 
-    /*
-    console.log("Cofactor of vandemonde: ");
-    console.log(getVandermondeCofactorMatrix(vandermonde));
-*/
-    console.log("Determinant: " + getVandermondeDeterminant(vandermonde));
+    // get cofactor matrix
+    var cofactor = getVandermondeCofactorMatrix(vandermonde);
 
-
-    console.log("Cofactor Matrix: " + getVandermondeCofactorMatrix(vandermonde).join("\n"));
-
-   // console.log(getVandermondeCofactorMatrix(vandermonde).join("\n"));
+    // get constant vector
     console.log("Constant vector: " + getConstantVector().join("\n"));
 
-    console.log("vandermonde Transpose: ");
-    transpose(vandermonde);
+    // adjoint is transpose of cofactor matrix
+    transpose(cofactor);
+
+
+
     console.log(vandermonde.join("\n"));
 }
 
