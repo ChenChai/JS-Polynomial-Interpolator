@@ -123,6 +123,35 @@ function getVandermondeCofactorMatrix(vandermonde) {
 }
 
 function getDeterminant(matrix) {
+
+    console.clear();
+    console.log("Beginning Row Reduction:")
+    var numRows = matrix.length;
+    var numColumns = matrix[0].length;
+
+    // copy matrix
+    var newMatrix = JSON.parse(JSON.stringify(matrix));
+
+    // loop through each row from top to bottom, and
+    // make all entries beneath leading entry zero.
+    for (var i = 0; i < numRows; i++) {
+        // reduce row j's first entry to zero.
+        for (var j = i + 1; j < numRows; j++) {
+            // subtract (row i * leading entry of row j) from (row j * leading entry of row i) 
+            subtractRow(newMatrix, newMatrix[i][i], j, newMatrix[j][i], i);
+            console.log(newMatrix.join("\n"));
+        }
+    }
+
+    console.log(newMatrix.join("\n"));
+
+    var det = 1;
+
+    for (var i = 0; i < numRows; i++) {
+        det *= newMatrix[i][i];
+    }
+    return det;
+    /*
     var det = 0;
     
     var size = matrix.length;
@@ -153,6 +182,14 @@ function getDeterminant(matrix) {
         delete innerMatrix;
     }
     return det;
+    */
+}
+
+// subtracts a multiple of row2 from a multiple of row1. Uses mutation on row1.
+function subtractRow(matrix,  row1Multiple, row1, row2Multiple, row2) {
+    for (var i = 0;  i < matrix.length; i++) {
+        matrix[row1][i] = row1Multiple * matrix[row1][i] - row2Multiple * matrix[row2][i];
+    }
 }
 
 // removes row i and column j from matrix.
@@ -245,10 +282,8 @@ function matrixVectorMultiply(matrix, vector) {
     for (var i = 0; i < numRows; i++) {
         var x = 0;
         for (var j = 0; j < numColumns; j++) {
-            console.log(" x = " +  matrix[i][j] + " + " + vector[j])
             x += matrix[i][j] * vector[j];
         }
-        console.log("added " + x + " to polynomial.");
         newVector.push(x);
     }
 
@@ -256,7 +291,6 @@ function matrixVectorMultiply(matrix, vector) {
 }
 
 function submitPoints() {
-    console.clear();
     var valid = validateInputs();
     if (!valid) { return; }
 
@@ -267,11 +301,14 @@ function submitPoints() {
     // constant vector of all the y-values
     var vector = getConstantVector();
 
-    console.log("vandermonde matrix: ");
-    console.log(vandermonde.join("\n"));
-
     // get determinant
     var det = getVandermondeDeterminant(vandermonde);
+
+    // no possible solution (i.e., not function?)
+    if (det == 0) {
+        window.alert("No Solution Possible.");
+        return;
+    }
 
     // get cofactor matrix by value
     var cofactor = getVandermondeCofactorMatrix(vandermonde);
@@ -280,17 +317,8 @@ function submitPoints() {
     // get the inverse of the vandermonde matrix
     var inverse = scalarMultiply(adjoint, 1 / det);
 
-    console.log("Inverse: ");
-    console.log(inverse.join("\n"));
-
-    // get constant vector
-    console.log("Constant vector: " + vector.join("\n"));
-
     // solve the system of equations by multiplying the constant vector by the inverse of the matrix
     var polynomial = matrixVectorMultiply(inverse, vector);
-
-    console.log("Polynomial: ");
-    console.log(polynomial.join(" \n "));
 
     window.alert("You got " + getPolynomialString(polynomial));
     return;
